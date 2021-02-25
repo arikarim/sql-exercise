@@ -213,5 +213,72 @@ from world
 where population > 10000000
 group by continent
 
+-- Counting big continents
+select continent 
+from world
+group by continent
+having sum(population) > 100000000
+
+-- JOIN and UEFA EURO 2012
+SELECT matchid, player FROM goal 
+  WHERE teamid = 'ger'
+
+2/
+SELECT id,stadium,team1,team2
+  FROM game
+where id = 1012
+
+3/
+SELECT player,teamid,stadium,mdate
+  FROM game JOIN goal ON (id=matchid)
+where teamid = 'ger'
+
+4/
+select team1,team2, player from game join goal on (id=matchid)
+where player like 'mario%'
+
+5/
+SELECT player, teamid, coach, gtime
+  FROM goal join eteam on(teamid=id)
+ WHERE gtime<=10
+
+6/
+select mdate, teamname
+from game join eteam on (team1=eteam.id)
+where coach like 'fernando%'
+
+7/
+select player 
+from game join goal on (id = matchid)
+where stadium like '%warsaw'
+
+8/
+SELECT distinct player
+  FROM game JOIN goal ON matchid = id 
+    WHERE (team1='GER'or team2='ger') and teamid != 'ger'
+
+9/
+SELECT teamname, count(player)
+  FROM eteam JOIN goal ON id=teamid
+ group BY teamname
+
+10/
+select stadium, count(player)
+from game join goal on id = matchid
+group by stadium
+
+11/
+SELECT matchid,mdate, count(player)
+  FROM game JOIN goal ON matchid = id 
+ WHERE (team1 = 'POL' OR team2 = 'POL')
+group by matchid,mdate
+
+12/
+select matchid, mdate,count(player)
+from goal join game on id = matchid
+where (team1 = 'ger' or team2 = 'ger') and teamid = 'ger'
+group by matchid,mdate
+
+
 
 
