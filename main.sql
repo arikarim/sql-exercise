@@ -51,4 +51,64 @@ where (LEFT(name,1) = LEFT(capital,1)) AND name <> capital
 SELECT name
    FROM world
 WHERE name LIKE '%a%' and name LIKE '%e%' and name LIKE '%i%' and name LIKE '%o%' and name LIKE '%u%' 
-  AND name NOT LIKE '% %'
+  AND name NOT LIKE '% %';
+
+-- Winners from 1950
+  SELECT yr, subject, winner
+  FROM nobel
+ WHERE yr = 1950
+
+-- 1962 Literature
+SELECT winner
+  FROM nobel
+ WHERE yr = 1962
+   AND subject = 'literature'
+
+-- Albert Einstein
+select yr, subject
+from nobel
+where winner =  'Albert Einstein' 
+
+-- Recent Peace Prizes
+select winner
+from nobel
+where subject = 'peace' and yr >= 2000
+
+-- Literature in the 1980's
+select * 
+from nobel
+where yr between 1980 and 1989 and subject = 'literature'
+
+-- Only Presidents
+SELECT * FROM nobel
+ WHERE winner in ('Theodore Roosevelt','Woodrow Wilson','Jimmy Carter','Barack Obama')
+
+-- john
+select winner
+from nobel
+where winner like 'john%'
+
+-- Chemistry and Physics from different years
+select *
+from nobel
+where (subject = 'physics' and yr = 1980) or (subject ='chemistry' and yr = 1984)
+
+-- Exclude Chemists and Medics
+select * from nobel
+where (yr = 1980) and subject <> 'Chemistry' and subject <> 'medicine'
+
+-- Early Medicine, Late Literature
+select * from nobel
+where (subject = 'medicine' and yr < 1910) or subject = 'literature' and yr > 2003
+
+-- Umlaut
+select * from nobel
+where winner = 'PETER GRÜNBERG'
+
+-- Apostrophe
+select * from nobel
+where winner like '%EUGENE %' and winner like '%neill%'
+
+-- Knights of the realm
+
+
