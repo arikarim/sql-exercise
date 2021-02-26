@@ -392,7 +392,123 @@ SELECT DISTINCT name FROM casting
 		WHERE actor.name = 'Art Garfunkel'
 )
 
+-- USING NULL
+1/
+select name from teacher
+where dept is null
 
+2/
+SELECT teacher.name, dept.name
+ FROM teacher INNER JOIN dept
+           ON (teacher.dept=dept.id)
+
+3/
+SELECT teacher.name, dept.name
+ FROM teacher left JOIN dept
+           ON (teacher.dept=dept.id)
+
+4/
+SELECT teacher.name, dept.name
+ FROM dept left JOIN teacher
+           ON (teacher.dept=dept.id)
+
+5/
+select name,coalesce(mobile,'07986 444 2266')from teacher
+
+6/
+select teacher.name, coalesce(dept.name,'none')
+from teacher left join dept on dept.id = teacher.dept
+
+7/
+select count(name),count(mobile)
+from teacher
+
+8/
+select dept.name, count(teacher.dept)
+from teacher right join dept on dept.id = teacher.dept
+group by dept.name
+
+9/
+SELECT name, CASE WHEN dept IN (1,2) THEN 'Sci'
+                  ELSE 'Art'
+                  END
+                  FROM teacher
+
+10/
+SELECT name, CASE WHEN dept IN (1,2) THEN 'Sci'
+                  WHEN dept = 3 THEN 'Art'
+                  ELSE 'None'
+                  END
+                  FROM teacher
+
+-- SELF JOIN 
+1/
+select count(name) from stops
+
+2/
+select id from stops
+where name = 'Craiglockhart'
+
+3/
+SELECT id, name FROM stops JOIN route ON (stops.id = route.stop)
+  WHERE num = 4
+
+4/
+SELECT company, num, COUNT(*)
+FROM route WHERE stop=149 OR stop=53
+GROUP BY company, num
+having count(*) >1
+
+5/
+SELECT a.company, a.num, a.stop, b.stop
+FROM route a JOIN route b ON
+  (a.company=b.company AND a.num=b.num)
+WHERE a.stop=53 and b.stop=149
+
+6/
+SELECT a.company, a.num, stopa.name, stopb.name
+FROM route a JOIN route b ON
+  (a.company=b.company AND a.num=b.num)
+  JOIN stops stopa ON (a.stop=stopa.id)
+  JOIN stops stopb ON (b.stop=stopb.id)
+WHERE stopa.name='Craiglockhart' and stopb.name='London road'
+
+7/
+SELECT distinct a.company, a.num
+FROM route a JOIN route b ON
+  (a.company=b.company AND a.num=b.num)
+  JOIN stops stopa ON (a.stop=stopa.id)
+  JOIN stops stopb ON (b.stop=stopb.id)
+WHERE stopa.name='Haymarket' and stopb.name='Leith'
+
+8/
+SELECT distinct a.company, a.num
+FROM route a JOIN route b ON
+  (a.company=b.company AND a.num=b.num)
+  JOIN stops stopa ON (a.stop=stopa.id)
+  JOIN stops stopb ON (b.stop=stopb.id)
+WHERE stopa.name='Craiglockhart'  and stopb.name= 'Tollcross'
+
+9/
+SELECT DISTINCT name, a.company, a.num
+FROM route a
+JOIN route b ON (a.company = b.company AND a.num = b.num)
+JOIN stops ON a.stop = stops.id
+WHERE b.stop = 53;
+
+10/
+SELECT a.num, a.company, stopb.name, c.num, c.company
+FROM route a
+JOIN route b ON (a.company = b.company AND a.num = b.num)
+JOIN (route c JOIN route d ON (c.company = d.company AND c.num = d.num))
+JOIN stops stopa ON a.stop = stopa.id
+JOIN stops stopb ON b.stop = stopb.id
+JOIN stops stopc ON c.stop = stopc.id
+JOIN stops stopd ON d.stop = stopd.id
+WHERE stopa.name = 'Craiglockhart'
+	AND stopd.name = 'Sighthill'
+	AND stopb.name = stopc.name
+ORDER BY LENGTH(a.num), b.num, stopb.name, LENGTH(c.num), d.num;
 
 
 
