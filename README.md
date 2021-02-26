@@ -1,6 +1,6 @@
 # sql-exercise
 
-In this repo i have done all the challenges froom SQLZOO
+In this repo i have done all the challenges from SQLZOO.
 
 
 
